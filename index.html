@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crimson Ritual</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cinzel', serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* 通用 section /
+section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  padding: 20px;
+}
+
+/ 背景层 /
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+/ 内容层 /
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 3rem;
+  letter-spacing: 3px;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/ 红色渐变氛围 /
+.red-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(120,0,0,0.4), #000 80%);
+  z-index: 1;
+}
+
+/ 滚动动画 /
+.fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.2s ease;
+}
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/ 锚点导航 /
+nav {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+nav a {
+  display: block;
+  margin: 10px 0;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+/ 每个主题背景（你可以换图） */
+#pumpkin .bg {
+  background-image: url('https://images.unsplash.com/photo-1506917987273-67f3c3d89f84');
+}
+
+#candle .bg {
+  background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba');
+}
+
+#crown .bg {
+  background-image: url('https://images.unsplash.com/photo-1520975916090-3105956dac38');
+}
+
+#cake .bg {
+  background-image: url('https://images.unsplash.com/photo-1601972599720-36938d4ecd31');
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="#pumpkin">Pumpkin</a>
+  <a href="#candle">Candle</a>
+  <a href="#crown">Crown</a>
+  <a href="#cake">Cake</a>
+</nav>
+
+<section id="pumpkin">
+  <div class="bg"></div>
+  <div class="red-overlay"></div>
+  <div class="content fade">
+    <h1>南瓜</h1>
+    <p>腐烂之前，最甜。</p>
+  </div>
+</section>
+
+<section id="candle">
+  <div class="bg"></div>
+  <div class="red-overlay"></div>
+  <div class="content fade">
+    <h1>蜡烛</h1>
+    <p>火焰吞噬时间，也照亮欲望。</p>
+  </div>
+</section>
+
+<section id="crown">
+  <div class="bg"></div>
+  <div class="red-overlay"></div>
+  <div class="content fade">
+    <h1>荆棘王冠</h1>
+    <p>疼痛，是唯一的加冕仪式。</p>
+  </div>
+</section>
+
+<section id="cake">
+  <div class="bg"></div>
+  <div class="red-overlay"></div>
+  <div class="content fade">
+    <h1>血红蛋糕</h1>
+    <p>甜与罪，在舌尖共存。</p>
+  </div>
+</section>
+
+<script>
+const fades = document.querySelectorAll('.fade');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, {
+  threshold: 0.3
+});
+
+fades.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
