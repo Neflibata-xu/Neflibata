@@ -216,12 +216,12 @@ body{font-family:var(--font-family);font-size:var(--font-size);background:var(--
 .msg-wrapper.user .msg-bubble{background:var(--bubble-user);color:var(--bubble-user-text);border-bottom-right-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
 .msg-bubble p{margin-bottom:10px;line-height:1.8;}
 .msg-bubble p:last-child{margin-bottom:0;}
-.msg-bubble strong{font-weight:600;}
+.msg-bubble strong,.msg-bubble b{font-weight:inherit;}
 .msg-bubble em{font-style:italic;}
 .msg-bubble h1,.msg-bubble h2,.msg-bubble h3{font-weight:600;margin-bottom:6px;margin-top:10px;}
-.msg-bubble h1{font-size:1.1em;}
-.msg-bubble h2{font-size:1.05em;}
-.msg-bubble h3{font-size:1em;}
+.msg-bubble h1{font-size:1.4em;}
+.msg-bubble h2{font-size:1.2em;}
+.msg-bubble h3{font-size:1.05em;}
 .msg-bubble ul,.msg-bubble ol{padding-left:18px;margin-bottom:8px;}
 .msg-bubble li{margin-bottom:4px;line-height:1.7;}
 .msg-bubble code{background:rgba(0,0,0,0.08);border-radius:4px;padding:1px 5px;font-size:0.88em;font-family:monospace;}
@@ -1056,7 +1056,7 @@ function downloadSelected(){if(!selectedConvIds.size){showToast('请先选择对
 // CHAT SEARCH
 function toggleChatSearch(){const b=document.getElementById('chat-search-bar');const v=b.classList.contains('visible');b.classList.toggle('visible',!v);if(!v)document.getElementById('chat-search-input').focus();else closeChatSearch();}
 function closeChatSearch(){document.getElementById('chat-search-bar').classList.remove('visible');document.getElementById('chat-search-input').value='';clearChatHighlights();chatSearchMatches=[];chatSearchIdx=0;document.getElementById('chat-search-info').textContent='';}
-function chatSearch(q){clearChatHighlights();chatSearchMatches=[];chatSearchIdx=0;if(!q.trim()){document.getElementById('chat-search-info').textContent='';return;}document.querySelectorAll('#chat-body .msg-bubble').forEach(b=>{const tx=b.textContent;if(tx.toLowerCase().includes(q.toLowerCase())){const esc=escHtml(tx);b.innerHTML=esc.replace(new RegExp(escRegex(escHtml(q)),'gi'),m=>`<mark>${m}</mark>`);b.querySelectorAll('mark').forEach(m=>chatSearchMatches.push(m));}});if(chatSearchMatches.length){document.getElementById('chat-search-info').textContent=`1 / ${chatSearchMatches.length}`;chatSearchMatches[0].scrollIntoView({behavior:'smooth',block:'center'});}else document.getElementById('chat-search-info').textContent='无结果';}
+function chatSearch(q){clearChatHighlights();chatSearchMatches=[];chatSearchIdx=0;if(!q.trim()){document.getElementById('chat-search-info').textContent='';return;}const qlc=q.toLowerCase();document.querySelectorAll('#chat-body .msg-bubble').forEach(b=>{if(!b.textContent.toLowerCase().includes(qlc))return;const walker=document.createTreeWalker(b,NodeFilter.SHOW_TEXT,null,false);const nodes=[];let node;while(node=walker.nextNode())nodes.push(node);nodes.forEach(textNode=>{const text=textNode.textContent;const lc=text.toLowerCase();let idx=lc.indexOf(qlc);if(idx<0)return;const frag=document.createDocumentFragment();let last=0;while(idx>=0){if(idx>last)frag.appendChild(document.createTextNode(text.slice(last,idx)));const mark=document.createElement('mark');mark.textContent=text.slice(idx,idx+q.length);frag.appendChild(mark);chatSearchMatches.push(mark);last=idx+q.length;idx=lc.indexOf(qlc,last);}if(last<text.length)frag.appendChild(document.createTextNode(text.slice(last)));textNode.parentNode.replaceChild(frag,textNode);});});if(chatSearchMatches.length){document.getElementById('chat-search-info').textContent=`1 / ${chatSearchMatches.length}`;chatSearchMatches[0].scrollIntoView({behavior:'smooth',block:'center'});}else document.getElementById('chat-search-info').textContent='无结果';}
 function clearChatHighlights(){document.querySelectorAll('#chat-body .msg-bubble mark').forEach(m=>{const p=m.parentNode;if(p){p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();}});}
 function chatSearchPrev(){if(!chatSearchMatches.length)return;chatSearchIdx=(chatSearchIdx-1+chatSearchMatches.length)%chatSearchMatches.length;chatSearchMatches[chatSearchIdx].scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('chat-search-info').textContent=`${chatSearchIdx+1} / ${chatSearchMatches.length}`;}
 function chatSearchNext(){if(!chatSearchMatches.length)return;chatSearchIdx=(chatSearchIdx+1)%chatSearchMatches.length;chatSearchMatches[chatSearchIdx].scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('chat-search-info').textContent=`${chatSearchIdx+1} / ${chatSearchMatches.length}`;}
